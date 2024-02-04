@@ -1,380 +1,819 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="description"
-        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
-  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Octo+: A Suite for Automatic Open-Vocabulary Object Placement in Mixed Reality</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="OCTO+: A Suite for Automatic Open-Vocabulary Object Placement in Mixed Reality"
+    />
+    <meta
+      name="keywords"
+      content="OCTO+, Octopus, Vision and Language, Open-Vocabulary, Augmented Reality, Large Language Model, Vision Language Model, Large Multimodal Model, AI, artificial intelligence"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      OCTO+: A Suite for Automatic Open-Vocabulary Object Placement in Mixed
+      Reality
+    </title>
 
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-        rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+      rel="stylesheet"
+    />
 
-  <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/emoji_u1f419.svg">
+    <link rel="stylesheet" href="./static/css/bulma.min.css" />
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css" />
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css" />
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+    />
+    <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="icon" href="./static/images/emoji_u1f419.svg" />
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="./static/js/fontawesome.all.min.js"></script>
-  <script src="./static/js/bulma-carousel.min.js"></script>
-  <script src="./static/js/bulma-slider.min.js"></script>
-  <script src="./static/js/index.js"></script>
-  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+    <script
+      type="text/javascript"
+      async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="./static/js/sort-table.js"
+      defer
+    ></script>
 
-  <style>
-    .chartMenu {
-      width: 100vw;
-      height: 40px;
-      background: #1A1A1A;
-      color: rgba(54, 162, 235, 1);
-    }
-    .chartMenu p {
-      padding: 10px;
-      font-size: 20px;
-    }
-    .chartCard {
-      width: 100vw;
-      height: calc(100vh - 40px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .chartBox {
-      width: 50%;
-      padding: 20px;
-      border-radius: 20px;
-      border: solid 3px;
-      background: white;
-    }
+    <style>
+      .logostyle {
+        font-variant: small-caps;
+        font-weight: bold;
+        background: -webkit-linear-gradient(#d9096a, #d17411);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .chartMenu {
+        width: 100vw;
+        height: 40px;
+        background: #1a1a1a;
+        color: rgba(54, 162, 235, 1);
+      }
+      .chartMenu p {
+        padding: 10px;
+        font-size: 20px;
+      }
+      .chartCard {
+        width: 100vw;
+        height: calc(100vh - 40px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .chartBox {
+        width: 50%;
+        padding: 20px;
+        border-radius: 20px;
+        border: solid 3px;
+        background: white;
+      }
 
-    table, tr, td {
-      width: 100%;
-      padding: 10px;
-      border: 2px solid black;
-      border-collapse: collapse;
-    }
+      #chart tr,
+      #chart td {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid black;
+        border-collapse: collapse;
+      }
 
-    table th {
-      width: 100%;
-      padding-top: 12px;
-      padding-left: 1px;
-      padding: 5px;
-      border: 2px solid black;
-    }
-  </style>
-</head>
-<body>
+      #chart th {
+        width: 100%;
+        padding-top: 12px;
+        padding-left: 1px;
+        padding: 5px;
+        border: 2px solid black;
+      }
 
-<section class="hero">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-2 publication-title is-bold"><img src="static/images/emoji_u1f419.svg" style="width:0.9em"> Octo+: A Suite for Automatic Open-Vocabulary Object Placement in Mixed Reality</h1>
-          <div class="is-size-4 publication-authors">
-            <span class="author-block">
-              <a href="">Aditya Sharma</a>*,</span>
-            <span class="author-block">
-              <a href="">Luke Yoffe</a>*,</span>
-            <span class="author-block">
-              <a href="">Tobias Höllerer</a>
-            </span>
-          </div>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">University of California, Santa Barbara</span>
-          </div>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">*Equal contribution</span>
-          </div>
+      /* Table for three sub-tasks */
+      #results {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        border-collapse: collapse;
+        width: 100%;
+        text-align: center;
+        margin: auto;
+        margin-top: 1em;
+        margin-bottom: 2em;
+      }
 
-          <div class="column has-text-centered">
-            <div class="publication-links">
-              <span class="link-block">
-                <a href=""
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
+      thead {
+        background: #ddd;
+      }
+
+      /*table tile*/
+      #results table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        font-size: 16px;
+        text-align: center;
+        font-weight: 600;
+        background-color: var(--UCLA-darkblue);
+        color: white;
+      }
+
+      table#results.js-sort-0 tbody tr td:nth-child(1),
+      table#results.js-sort-1 tbody tr td:nth-child(2),
+      table#results.js-sort-2 tbody tr td:nth-child(3),
+      table#results.js-sort-3 tbody tr td:nth-child(4),
+      table#results.js-sort-4 tbody tr td:nth-child(5),
+      table#results.js-sort-5 tbody tr td:nth-child(6),
+      table#results.js-sort-6 tbody tr td:nth-child(7),
+      table#results.js-sort-7 tbody tr td:nth-child(8),
+      table#results.js-sort-8 tbody tr td:nth-child(9),
+      table#results.js-sort-9 tbody tr td:nth-child(10),
+      table#results.js-sort-10 tbody tr td:nth-child(11),
+      table#results.js-sort-11 tbody tr td:nth-child(12),
+      table#results.js-sort-12 tbody tr td:nth-child(13),
+      table#results.js-sort-13 tbody tr td:nth-child(14),
+      table#results.js-sort-14 tbody tr td:nth-child(15) {
+        background: #dee;
+      }
+
+      #results td {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      #results tr:nth-child(even) {
+        background-color: #f5f5f5;
+      }
+
+      #results tr:hover {
+        background-color: #ddd;
+      }
+
+      .js-sort-number:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .best-score-text {
+        color: #c6011f;
+        /* color: #3457D5 */
+      }
+    </style>
+  </head>
+  <body>
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-2 publication-title is-bold">
+                <img
+                  src="static/images/emoji_u1f419.svg"
+                  style="width: 0.9em"
+                />
+                <emph class="logostyle">OCTO+</emph>: A Suite for Automatic
+                Open-Vocabulary Object Placement in Mixed Reality
+              </h1>
+              <div class="is-size-4 publication-authors">
+                <span class="author-block">
+                  <a href="">Aditya Sharma</a>*,</span
+                >
+                <span class="author-block"> <a href="">Luke Yoffe</a>*,</span>
+                <span class="author-block">
+                  <a href="">Tobias Höllerer</a>
+                </span>
+              </div>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block"
+                  >University of California, Santa Barbara</span
+                >
+              </div>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">*Equal contribution</span>
+              </div>
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <a
+                      href="https://arxiv.org/abs/2401.08973"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                      </span>
+                      <span>arXiv</span>
+                    </a>
                   </span>
-                  <span>Paper</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://arxiv.org/abs/2312.12815"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
+                  <span class="link-block">
+                    <a
+                      href="https://huggingface.co/papers/2401.08973"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon"> 🤗 </span>
+                      <span>HF Paper</span>
+                    </a>
                   </span>
-                  <span>arXiv (OCTOPUS)</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://github.com/octo-pearl/octo-pearl"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
+                  <span class="link-block">
+                    <a
+                      href="https://arxiv.org/abs/2312.12815"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                      </span>
+                      <span>arXiv (OCTOPUS)</span>
+                    </a>
                   </span>
-                  <span>Code</span>
-                  </a>
-              </span>
+                  <span class="link-block">
+                    <a
+                      href="https://github.com/octo-pearl/octo-pearl"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>Code</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a
+                      href="https://huggingface.co/spaces/adityas/OCTO"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="far fa-images"></i>
+                      </span>
+                      <span>Demo</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a
+                      href="https://huggingface.co/datasets/adityas/PEARL"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="fa fa-database"></i>
+                      </span>
+                      <span>Dataset</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a
+                      href="https://docs.google.com/presentation/d/1BdZCkr_v2Rmdvl9B4hWLz7j0_cNyPgzswt28tL8Tbm0/present?slide=id.g2ae500f28c5_0_163"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="far fa-file"></i>
+                      </span>
+                      <span>Slides</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <img src="./static/images/teaser.png" style="display: block;"/>
-      <p>
-        Overview of various methods we experimented with, including <b>OCTO+</b>. To determine where a  
-        <i><b>cupcake</b></i> should be placed, we performs three stages: 1) <b>image understanding</b>: 
-        generate a  list of all objects in the image (OCTO+ uses RAM++); 2) <b>reasoning</b>: select the 
-        most natural object with GPT-4; 3) <b>locating</b>: locate the 2D coordinate of the selected 
-        object in the image and ray cast to determine the 3D location in the AR scene.
-      </p>
+    <section class="hero teaser">
+      <div class="container is-max-desktop">
+        <div class="hero-body">
+          <img src="./static/images/teaser.png" style="display: block" />
+          <p>
+            Overview of various methods we experimented with, including
+            <b>OCTO+</b>. To determine where a <i><b>cupcake</b></i> should be
+            placed, we performs three stages: 1) <b>image understanding</b>:
+            generate a list of all objects in the image (OCTO+ uses RAM++); 2)
+            <b>reasoning</b>: select the most natural object with GPT-4; 3)
+            <b>locating</b>: locate the 2D coordinate of the selected object in
+            the image and ray cast to determine the 3D location in the AR scene.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-centered has-text-centered">
+            <div class="column is-three-fifths">
+              <div style="width: 252px; margin: 0 auto">
+                <video poster autoplay controls muted loop playinline>
+                  <source src="./static/videos/octo.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero">
+      <div class="container is-max-desktop">
+        <div class="hero-body">
+          <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+              <h2 class="title is-3">Introduction</h2>
+              <div class="content has-text-justified">
+                <p>
+                  One key challenge in Augmented Reality is the placement of
+                  virtual content in natural locations. Most existing automated
+                  techniques can only work with a closed-vocabulary, fixed set
+                  of objects. In this paper, we introduce and evaluate several
+                  methods for automatic object placement using recent advances
+                  in <b>open-vocabulary</b> vision-language models. Through a
+                  multifaceted evaluation, we identify a new state-of-the-art
+                  method, <b>OCTO+</b>. We also introduce a <b>benchmark</b> for
+                  automatically evaluating the placement of virtual objects in
+                  augmented reality, alleviating the need for costly user
+                  studies. Through this, in addition to human evaluations, we
+                  find that OCTO+ places objects in a valid region over
+                  <b>70%</b> of the time, outperforming other methods on a range
+                  of metrics.
+                </p>
+                <p>In summary, our contributions are three-fold:</p>
+
+                <ul>
+                  <li>
+                    We present the <b>state-of-the-art</b> pipeline
+                    <b>OCTO+</b>, outperforming GPT-4V and the predecessor
+                    <b>OCTOPUS</b> method on virtual content placement in
+                    augmented reality scenes.
+                  </li>
+                  <li>
+                    Extensive experimentation with state-of-the-art multimodal
+                    large language models, image editing models, and approaches
+                    that utilize a series of models, leading to an overall
+                    3-stage conceptualization for the automatic placement
+                    problem.
+                  </li>
+                  <li>
+                    We introduce <b>PEARL</b>, a benchmark for <b>P</b>lacement
+                    <b>E</b>valuation of <b>A</b>ugmented <b>R</b>eality
+                    E<b>L</b>ements.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-centered has-text-centered">
+            <div class="column is-three-fifths">
+              <h2 class="title is-3">Results</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section">
+      <div class="chartCard">
+        <div class="chartBox">
+          <canvas id="myChart"></canvas>
+          <table id="chart">
+            <thead style="text-align: left">
+              <tr>
+                <th>Metrics</th>
+                <th>Unnatural</th>
+                <th>Random</th>
+                <th>GPT-4V</th>
+                <th>OCTOPUS</th>
+                <th>GPT4V& CLIPSeg</th>
+                <th>OCTO+ (ours)</th>
+                <th>Human</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SCORE (&#8593;)</td>
+                <td>-176.375</td>
+                <td>-106.113</td>
+                <td>-34.282</td>
+                <td>-15.300</td>
+                <td><u>-4.492</u></td>
+                <td>
+                  <b
+                    style="
+                      text-shadow: -0.2px 0 black, 0 0.2px black, 0.2px 0 black,
+                        0 -0.2px black;
+                    "
+                    >7.634</b
+                  >
+                </td>
+                <td><i>17.987</i></td>
+              </tr>
+              <tr>
+                <td>IN MASK (&#8593;)</td>
+                <td>0.010</td>
+                <td>0.161</td>
+                <td>0.321</td>
+                <td>0.588</td>
+                <td><u>0.692</u></td>
+                <td>
+                  <b
+                    style="
+                      text-shadow: -0.2px 0 black, 0 0.2px black, 0.2px 0 black,
+                        0 -0.2px black;
+                    "
+                    >0.702</b
+                  >
+                </td>
+                <td><i>0.907</i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+        // setup
+        const data = {
+          labels: [
+            "Unnatural",
+            "Random",
+            "GPT-4V",
+            "OCTOPUS",
+            "GPT-4V & CLIPSeg",
+            "OCTO+ (ours)",
+            "Human",
+          ],
+          datasets: [
+            {
+              label: "SCORE",
+              data: [-176.375, -106.113, -34.282, -15.3, -4.492, 7.634, 17.987],
+              backgroundColor: [
+                "rgba(255, 26, 104, 0.2)",
+                "rgba(54, 162, 235, 0.2)",
+                "rgba(255, 206, 86, 0.2)",
+                "rgba(75, 192, 192, 0.2)",
+                "rgba(153, 102, 255, 0.2)",
+                "rgba(255, 159, 64, 0.2)",
+                "rgba(255, 26, 104, 0.2)",
+              ],
+              borderColor: [
+                "rgba(255, 26, 104, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(153, 102, 255, 1)",
+                "rgba(255, 159, 64, 1)",
+                "rgba(255, 26, 104, 1)",
+              ],
+              borderWidth: 1,
+            },
+            {
+              label: "IN MASK",
+              hidden: true,
+              data: [0.01, 0.161, 0.321, 0.588, 0.692, 0.702, 0.907],
+              backgroundColor: [
+                "rgba(255, 26, 104, 0.2)",
+                "rgba(54, 162, 235, 0.2)",
+                "rgba(255, 206, 86, 0.2)",
+                "rgba(75, 192, 192, 0.2)",
+                "rgba(153, 102, 255, 0.2)",
+                "rgba(255, 159, 64, 0.2)",
+                "rgba(255, 26, 104, 0.2)",
+              ],
+              borderColor: [
+                "rgba(255, 26, 104, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(153, 102, 255, 1)",
+                "rgba(255, 159, 64, 1)",
+                "rgba(255, 26, 104, 1)",
+              ],
+              borderWidth: 1,
+            },
+          ],
+        };
+
+        // config
+        const config = {
+          type: "bar",
+          data,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        };
+
+        // render init block
+        const myChart = new Chart(document.getElementById("myChart"), config);
+
+        function mouseMoveHandler(mousePos) {
+          const points = myChart.getElementsAtEventForMode(
+            mousePos,
+            "nearest",
+            { intersect: true },
+            true
+          );
+          const bodytd = document.querySelectorAll("tbody tr td");
+          bodytd.forEach((td) => {
+            td.style.backgroundColor = "transparent";
+          });
+
+          if (points[0]) {
+            const idx = points[0].index;
+            const color = myChart.data.datasets[0].backgroundColor[idx];
+            var offsetValue = 0;
+            if (myChart.getSortedVisibleDatasetMetas()[0]["label"] == "SCORE") {
+              offsetValue = idx + 1;
+            } else {
+              offsetValue = idx + 1 + 6 + 1 + 1;
+            }
+            console.log(myChart.getSortedVisibleDatasetMetas()[0]["label"]);
+            bodytd[offsetValue].style.backgroundColor = color;
+          }
+        }
+
+        myChart.canvas.onmousemove = mouseMoveHandler;
+      </script>
     </div>
-    <div class="hero-body">
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-3">Introduction</h2>
-          <div class="content has-text-justified">
-            <p>
-              One key challenge in Augmented Reality is the placement of virtual content in natural locations. 
-              Most existing automated techniques can only work with a closed-vocabulary, fixed set of objects. 
-              In this paper, we introduce and evaluate several methods for automatic object placement using 
-              recent advances in <b>open-vocabulary</b> vision-language models. Through a multifaceted evaluation, 
-              we identify a new state-of-the-art method, <b>OCTO+</b>. We also introduce a <b>benchmark</b> for 
-              automatically evaluating the placement of virtual objects in augmented reality, alleviating the 
-              need for costly user studies. Through this, in addition to human evaluations, we find that OCTO+ 
-              places objects in a valid region over <b>70%</b> of the time, outperforming other methods on a 
-              range of metrics.
-            </p>
-            <p>
-              In summary, our contributions are three-fold:
-              <ul>
-                <li>
-                  We present the <b>state-of-the-art</b> pipeline <b>OCTO+</b>, outperforming GPT-4V and the 
-                  predecessor <b>OCTOPUS</b> method on virtual content placement in augmented reality scenes.
-                </li>
-                <li>
-                  Extensive experimentation with state-of-the-art multimodal large language models, image 
-                  editing models, and approaches that utilize a series of models, leading to an overall 
-                  3-stage conceptualization for the automatic placement problem. 
-                </li>
-                <li>
-                  We introduce <b>PEARL</b>, a benchmark for <b>P</b>lacement <b>E</b>valuation of 
-                  <b>A</b>ugmented <b>R</b>eality E<b>L</b>ements.
-                </li>
-            </p>
+
+    <div class="section">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-full has-text-centered content">
+            <h2 class="title is-3">Leaderboard</h2>
+            <div class="content">
+              <p class="mt-3">Scores on various methods on PEARL benchmark.</p>
+              <table class="js-sort-table" id="results">
+                <thead>
+                  <td class="js-sort-number"><strong>#</strong></td>
+                  <td class="js-sort-number"><strong>Tagger</strong></td>
+                  <td class="js-sort-number"><strong>Filter</strong></td>
+                  <td class="js-sort-number"><strong>Selector</strong></td>
+                  <td class="js-sort-number"><strong>Locator</strong></td>
+                  <td class="js-sort-number"><strong>In Mask</strong></td>
+                  <td class="js-sort-number"><strong>Score</strong></td>
+                  <td class="js-sort-number"><strong>MTurk</strong></td>
+                  <td class="js-sort-number"><strong>Expert</strong></td>
+                </thead>
+                <tr>
+                  <td>-</td>
+                  <td colspan="4"><b>Natural Placement*</b></td>
+                  <td><b>0.907</b></td>
+                  <td><b>17.987</b></td>
+                  <td><b>1.000</b></td>
+                  <td><b>1.000</b></td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>
+                    <i class="fa fa-crown"></i
+                    ><b class="best-score-text"> RAM++</b>
+                  </td>
+                  <td><b class="best-score-text">G-DINO</b></td>
+                  <td><b class="best-score-text">GPT-4</b></td>
+                  <td><b class="best-score-text">G-SAM (Center)</b></td>
+                  <td><b class="best-score-text">0.702</b></td>
+                  <td><b class="best-score-text">7.634</b></td>
+                  <td>0.527</td>
+                  <td><b class="best-score-text">0.690</b></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td></td>
+                  <td></td>
+                  <td>GPT-4V(ision)</td>
+                  <td>CLIPSeg (Max)</td>
+                  <td><u>0.692</u></td>
+                  <td>-4.492</td>
+                  <td><b class="best-score-text">0.582</b></td>
+                  <td><u>0.620</u></td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td></td>
+                  <td></td>
+                  <td>GPT-4V(ision)</td>
+                  <td>G-SAM (Center)</td>
+                  <td>0.686</td>
+                  <td><u>4.317</u></td>
+                  <td><u>0.580</u></td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>RAM++</td>
+                  <td>G-DINO</td>
+                  <td>GPT-4</td>
+                  <td>CLIPSeg (Max)</td>
+                  <td>0.671</td>
+                  <td>-4.185</td>
+                  <td>0.547</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td></td>
+                  <td></td>
+                  <td>LLaVa-v1.5-13B</td>
+                  <td>CLIPSeg (Max)</td>
+                  <td>0.649</td>
+                  <td>-13.17</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td>SCP</td>
+                  <td>G-DINO</td>
+                  <td>GPT-4</td>
+                  <td>G-SAM (Center)</td>
+                  <td>0.615</td>
+                  <td>-6.464</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td>SCP</td>
+                  <td>CLIPSeg</td>
+                  <td>GPT-4</td>
+                  <td>G-SAM (Center)</td>
+                  <td>0.613</td>
+                  <td>-10.783</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>8</td>
+                  <td>SCP</td>
+                  <td>G-DINO</td>
+                  <td>GPT-4</td>
+                  <td>CLIPSeg (Max)</td>
+                  <td>0.596</td>
+                  <td>-13.005</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>9</td>
+                  <td><i class="fa fa-certificate"></i> SCP</td>
+                  <td>ViLT</td>
+                  <td>GPT-4</td>
+                  <td>CLIPSeg (Max)</td>
+                  <td>0.588</td>
+                  <td>-15.300</td>
+                  <td>0.514</td>
+                  <td>0.570</td>
+                </tr>
+                <tr>
+                  <td>10</td>
+                  <td>SCP</td>
+                  <td>CLIPSeg</td>
+                  <td>GPT-4</td>
+                  <td>CLIPSeg (Max)</td>
+                  <td>0.572</td>
+                  <td>-20.730</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>11</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>GPT-4V (Pixel Location)</td>
+                  <td>0.321</td>
+                  <td>-34.282</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>12</td>
+                  <td></td>
+                  <td></td>
+                  <td>InstructPix2Pix</td>
+                  <td>G-SAM (Bottom)</td>
+                  <td>0.283</td>
+                  <td>-60.852</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>13</td>
+                  <td colspan="4"><b>Random Placement*</b></td>
+                  <td>0.161</td>
+                  <td>-106.113</td>
+                  <td>0.467</td>
+                  <td>0.040</td>
+                </tr>
+                <tr>
+                  <td>14</td>
+                  <td colspan="4"><b>Unnatural Placement*</b></td>
+                  <td>0.010</td>
+                  <td>-176.375</td>
+                  <td>0.167</td>
+                  <td>0.020</td>
+                </tr>
+              </table>
+            </div>
+            Overall results of different models on the PEARL dataset. The
+            best-performing model in each category is in
+            <b class="best-score-text">red</b>, the second best is
+            <u>underlined</u>, and the human performance is in <b>bold</b>. The
+            OCTO+ method is denoted with <i class="fa fa-crown"></i>, the
+            Octopus method is denoted with <i class="fa fa-certificate"></i>,
+            and the baselines are denoted with <b>*</b>.
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-three-fifths">
-          <h2 class="title is-3">PEARL Benchmark</h2>
+    <section class="section">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">PEARL Score</h2>
+            <img src="./static/images/pearl.png" style="display: block" />
+            <br />
+            <br />
+            <h2 class="title is-3">
+              Is PEARL Score aligned with human preferences?
+            </h2>
+            <img src="./static/images/pearl_human.png" style="display: block" />
+            <h2 class="subtitle is-9">
+              Strong <b>positive</b> correlation between automated metrics and
+              human scores
+            </h2>
+
+            <br />
+            <br />
+            <h2 class="title is-3">OCTO+ Runtime</h2>
+            <img src="./static/images/runtime.png" style="display: block" />
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <h2 class="title is-3 has-text-centered">BibTeX</h2>
+        <pre><code>@article{sharma2024octo,
+      title     = {OCTO+: A Suite for Automatic Open-Vocabulary Object Placement in Mixed Reality}, 
+      author    = {Aditya Sharma and Luke Yoffe and Tobias Höllerer},
+      journal   = {arXiv preprint arXiv:2401.08973},
+      year      = {2024},
+    }</code></pre>
+      </div>
+    </section>
 
-<div class="chartCard">
-  <div class="chartBox">
-    <canvas id="myChart"></canvas>
-    <table>
-      <thead style="text-align:left">
-        <tr>
-          <th>Metrics</th>
-          <th>Unnatural</th>
-          <th>Random</th>
-          <th>OCTOPUS</th>
-          <th>GPT4-V</th>
-          <th>OCTO+</th>
-          <th>Human</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>IN MASK (&#8593;)</td>
-          <td>0.010</td>
-          <td>0.161</td>
-          <td>0.588</td>
-          <td><u>0.692</u></td>
-          <td><b style="text-shadow: -0.2px 0 black, 0 0.2px black, 0.2px 0 black, 0 -0.2px black;">0.702</b></td>
-          <td><i>0.907</i></td>
-        </tr>
-        <tr>
-          <td>SCORE (&#8593;)</td>
-          <td>-176.375</td>
-          <td>-106.113</td>
-          <td>-15.300</td>
-          <td><u>-4.492</u></td>
-          <td><b style="text-shadow: -0.2px 0 black, 0 0.2px black, 0.2px 0 black, 0 -0.2px black;">7.634</b></td>
-          <td><i>17.987</i></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-<script>
-
-// setup 
-const data = {
-  labels: ['Unnatural', 'Random', 'OCTOPUS', 'GPT-4V', 'OCTO+', 'Human'],
-  datasets: [{
-    label: 'IN MASK',
-    data: [0.010, 0.161, 0.588, 0.692, 0.702, 0.907],
-    backgroundColor: [
-      'rgba(255, 26, 104, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(255, 206, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(153, 102, 255, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-    ],  
-    borderColor: [
-      'rgba(255, 26, 104, 1)',
-      'rgba(54, 162, 235, 1)',
-      'rgba(255, 206, 86, 1)',
-      'rgba(75, 192, 192, 1)',
-      'rgba(153, 102, 255, 1)',
-      'rgba(255, 159, 64, 1)',
-    ],
-    borderWidth: 1
-  },{
-    label: 'SCORE',
-    hidden: true,
-    data: [-176.375, -106.113, -15.300, -4.492, 7.634, 17.987],
-    backgroundColor: [
-      'rgba(255, 26, 104, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(255, 206, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(153, 102, 255, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-    ],  
-    borderColor: [
-      'rgba(255, 26, 104, 1)',
-      'rgba(54, 162, 235, 1)',
-      'rgba(255, 206, 86, 1)',
-      'rgba(75, 192, 192, 1)',
-      'rgba(153, 102, 255, 1)',
-      'rgba(255, 159, 64, 1)',
-    ],
-    borderWidth: 1
-  }]
-};
-
-// config 
-const config = {
-  type: 'bar',
-  data,
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  }
-};
-
-// render init block
-const myChart = new Chart(
-  document.getElementById('myChart'),
-  config
-);
-
-function mouseMoveHandler(mousePos) {
-  const points = myChart.getElementsAtEventForMode(mousePos, 'nearest', { intersect: true }, true);
-  const bodytd = document.querySelectorAll('tbody tr td');
-  bodytd.forEach((td) => {
-    td.style.backgroundColor = 'transparent';
-  });
-  
-  if (points[0]) {
-    const idx = points[0].index;
-    const color = myChart.data.datasets[0].backgroundColor[idx];
-    var offsetValue = 0;
-    if (myChart.getSortedVisibleDatasetMetas()[0]["label"] == "IN MASK") {
-      offsetValue = idx + 1;
-    } else {
-      offsetValue = idx + 1 + 6 + 1;
-    }
-    console.log(myChart.getSortedVisibleDatasetMetas()[0]["label"])
-    bodytd[offsetValue].style.backgroundColor = color;
-  }
-}
-
-myChart.canvas.onmousemove = mouseMoveHandler;
-</script>
-
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">PEARL Score</h2>
-        <div class="content has-text-justified">
-          <p> We define an automated metrics, PEARL-Score. </p>
-          <span class="math display">\[ \mathcal{S} = \frac{1}{\mathcal{N}} \sum_{i=1}^{\mathcal{N}} \frac{1}{\mathcal{M}_i} \sum_{j=1}^{\mathcal{M}_i} (-1)^{1 - \mathcal{V}_{ij}(\hat{x}_{ij}, \hat{y}_{ij})} \cdot \mathcal{D}(\hat{x}_{ij}, \hat{y}_{ij})\]</span>
-          <span class="math display">\[ \mathcal{D}(\hat{x}_{ij},\hat{y}_{ij}) = \min_{x, y: \mathcal{V}_{ij}(x,y) = 1 - \mathcal{V}_{ij}(\hat{x}_{ij}, \hat{y}_{ij})} \mathcal{L}_2(x, y, \hat{x}_{ij}, \hat{y}_{ij}) \]</span>
-          <span class="math display">\[ \mathcal{L}_2(x, y, \hat{x}_{ij}, \hat{y}_{ij}) = \sqrt{(\hat{x}_i - x)^2 + (\hat{y}_i - y)^2} \]</span>
+    <footer class="footer">
+      <div class="container">
+        <div class="content has-text-centered">
+          <a class="icon-link" href="https://arxiv.org/abs/2401.08973">
+            <i class="fas fa-file-pdf"></i>
+          </a>
+          <a
+            class="icon-link"
+            href="https://github.com/octo-pearl/octo-pearl"
+            class="external-link"
+            disabled
+          >
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <div class="content">
+              <p>
+                This website is adapted from
+                <a href="https://nerfies.github.io/">Nerfies</a> and
+                <a href="https://mathvista.github.io/">MathVista</a>, licensed
+                under a
+                <a href="http://creativecommons.org/licenses/by-sa/4.0/"
+                  >Creative Commons Attribution-ShareAlike 4.0 International
+                  License</a
+                >.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="container">
-    <div class="content has-text-centered">
-      <a class="icon-link"
-         href="./static/videos/nerfies_paper.pdf">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-          <p>
-            This website is licensed under a <a rel="license"
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-          <p>
-            This means you are free to borrow the <a
-              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
-            we just ask that you link back to this page in the footer.
-            Please remember to remove the analytics code included in the header of the website which
-            you do not want on your website.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
-
-</body>
+    </footer>
+  </body>
 </html>
